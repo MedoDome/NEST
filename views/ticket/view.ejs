@@ -1,0 +1,114 @@
+<% include ../partials/header  %>
+
+    <div class="col col-xs-12">
+        <div class="row">
+            <div class="jumbotron">
+
+                <center>
+                    <h2> Title:
+                        <%= ticket.title %>
+                    </h2>
+                    <h2> ID :
+                        <%= ticket._id %>
+                    </h2>
+                </center>
+            </div>
+
+            <article class="row">
+                <div class="col-md-12 col-sm-12">
+                    <div class="panel panel-default arrow left">
+                        <div class="panel-body" style="background-color: #c1e8ff; ">
+                            <header class="text-left">
+                                <div class="comment-user">
+                                    <i class="fa fa-user"></i> <%= ticket.author.username %></div>
+                                <time class="comment-date" datetime="16-12-2014 01:05">
+                                    <i class="fa fa-clock-o"></i>
+                                    <%= ticket.created.toDateString() %>
+                                </time>
+                            </header>
+                            <div class="comment-post">
+                                </br>
+                                <p>
+                                    <%= ticket.message %>
+                                </p>
+                            </div>
+                            <% if(currentUser && ticket.author._id.equals(currentUser._id)){ %>
+                            <% var status; (ticket.solved)? status = "unsolved" : status = "solved";  %>
+
+                            <div class="text-right">
+                                <a href="<%= ticket._id %>/edit" class="btn btn-default btn-sm" style="margin-right: 5px;">
+                                    <i class="fa fa-pencil"></i> edit</a>
+
+                                <form action="<%= ticket._id %>/?_method=DELETE" method="POST" style="display:inline">
+                                    <button class="btn btn-default btn-sm">
+                                        <i class="fa fa-remove"></i> delete</button>
+                                </form>
+
+                                <form action="<%= ticket._id %>/set" method="POST" style="display:inline">
+                                <button class="btn btn-default btn-sm">
+                                    <i class="fa fa-check"></i> Set as <%= status %></button>
+                            </form>
+
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+
+
+            <% ticket.comments.forEach(function(comment){ console.log("Comment " + comment); %>
+                <article class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="panel panel-default arrow left">
+                            <div class="panel-body">
+                                <header class="text-left">
+                                    <div class="comment-user">
+                                        <i class="fa fa-user"></i> <%= comment.author.username %></div>
+                                    <time class="comment-date" datetime="16-12-2014 01:05">
+                                        <i class="fa fa-clock-o"></i>
+                                        <%= comment.created.toDateString() %>
+                                    </time>
+                                </header>
+                                <div class="comment-post">
+                                    </br>
+                                    <p>
+                                        <%= comment.message %>
+                                    </p>
+                                </div>
+                                <% if(currentUser && comment.author._id.equals(currentUser._id)){ %>
+                                <div class="text-right">
+                                    <a href="<%= ticket._id %>/comment/<%= comment._id %>/edit" class="btn btn-default btn-sm" style="margin-right: 5px;">
+                                        <i class="fa fa-pencil"></i> edit</a>
+
+                                    <form action="<%= ticket._id %>/comment/<%= comment._id %>?_method=DELETE" method="POST" style="display:inline">
+                                        <button class="btn btn-default btn-sm">
+                                            <i class="fa fa-remove"></i> delete</button>
+                                    </form>
+                                </div>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <% });  %>
+                    <div class="row">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <form action="/ticket/<%= ticket._id %>/comment/" method="POST">
+                                    <textarea class="form-control counted" name="ticketComment[message]" placeholder="Type in your message" rows="5" style="margin-bottom:10px; resize:vertical; min-width: 200px;"></textarea>
+                                    <h6 class="pull-right" id="counter">320 characters remaining</h6>
+                                    <button class="btn btn-info" type="submit">Post New Message</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+        </div>
+    </div>
+
+
+
+
+    <% include ../partials/footer  %>

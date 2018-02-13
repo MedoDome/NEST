@@ -1,0 +1,23 @@
+<% include ../partials/header  %>
+
+    <div class="col col-xs-12">
+
+        <form action="/ticket/<%= ticketId %>/comment?_method=PUT" method="POST">
+   
+        <input type="hidden" value="<%= ticketComment._id %>" name="ticketComment[_id]" />
+            <div class="form-group">
+                <label for="ticketComment[message]">Message</label>
+                <textarea class="form-control" name="ticketComment[message]" placeholder="title" rows="5" ><%= ticketComment.message %></textarea>
+            </div>.
+
+            <!-- <div class="form-group">
+                 <label for="ticket[message]">Message</label>
+                 <textarea class="form-control" name="ticket[message]" placeholder="title" rows="5"></textarea>
+            </div> !-->
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+    </div>
+
+<% include ../partials/footer  %>
